@@ -6,23 +6,25 @@ Created on Mon Apr  8 01:40:12 2019
 """
 
 import numpy as np
-from PIL import Image
-
-im = Image.open("smile.jpg")
-np_im = np.array(im)
+import cv2
+image_size = 500 
+im = cv2.imread("testable.jpg",0)
+np_im = np.array(im,dtype=float)
 print(np_im.shape)
 
-X = np.array(([2,9],[1,5],[3,6]),dtype=float)
-y = np.array(([92],[86],[89]),dtype=float)
+X = np_im
+y = np.zeros((500,500),dtype=float)
+y[0,0] = 1
 
 X = X/np.amax(X,axis=0)
-y = y/100
 
+X= X.reshape(-1,X.shape[1])
+#print(y)
 class Neural_Network(object):
     def __init__(self):
-        self.input_size=2
-        self.output_size=1
-        self.hidden_size=3
+        self.input_size=image_size
+        self.output_size=image_size
+        self.hidden_size=image_size
         self.W1 = np.random.randn(self.input_size,self.hidden_size)
         self.W2 = np.random.randn(self.hidden_size,self.output_size)
 
@@ -56,19 +58,19 @@ class Neural_Network(object):
         np.savetxt("w1.txt",self.W1,fmt="%s")
         np.savetxt("w2.txt",self.W2,fmt="%s")
 
-#Neural_forward = Neural_Network()
+Neural_forward = Neural_Network()
 
 #o = Neural_forward.forward(X)
 #print("prediccion:{}".format(o)) 
 #print("real:{}".format(y))
 
-##for i in range(1000):
-##    print("input:{}\n".format(X))
-##    print("output:{}\n".format(y))
-##    print("prediccion:{}\n".format(Neural_forward.forward(X)))
-##    print("perdida:{}\n".format(np.mean(np.square(y - Neural_forward.forward(X)))))
-##    print("\n")
-##    Neural_forward.train(X,y)
+for i in range(1000):
+    print("input:{}\n".format(X))
+    print("output:{}\n".format(y))
+    print("prediccion:{}\n".format(Neural_forward.forward(X)))
+    print("perdida:{}\n".format(np.mean(np.square(y - Neural_forward.forward(X)))))
+    print("\n")
+    Neural_forward.train(X,y)
 
 #xPredicted = np.array(([4,8]),dtype=float)
 

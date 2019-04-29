@@ -6,6 +6,7 @@ Created on Tue Apr 23 09:48:29 2019
 """
 import pygame
 from random_word import RandomWords
+import numpy as np
 
 def text_objects(text,font):
     textSurface = font.render(text,True,black)
@@ -75,3 +76,12 @@ while(keep_going):
         if(event.type == pygame.MOUSEBUTTONUP):
             should_draw = False
 pygame.quit()
+
+#red
+numero_categorias = 10
+categorias = np.array(['Circulo','Cuadrado','Triangulo','Huevo','Arbol','Casa','Cara_feliz','Cara_triste','interrogacion','mickey'])
+ohe_labels = np.zeros((len(labels),n_categorias))
+for ii in range(len(labels)):
+    jj = np.where(categorias == labels[ii])
+    ohe_lables[ii,jj] = 1
+print(ohe_labels)
